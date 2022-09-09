@@ -1,0 +1,37 @@
+bdjuno:
+  imageName: todo
+  genesisUrl: https://raw.githubusercontent.com/chain4energy/c4e-chains/main/perun-1/genesis.json
+  config:
+    loggingLevel: debug
+    chain:
+      bech32Prefix:
+        - c4e
+        - cosmos
+      additionalModules:
+    rpc:
+      clientName: juno
+      address: todo
+      maxConnections: 20
+    grpc:
+      address: todo
+    parsing:
+      workers: 4
+      startHeight: 1
+      averageBlockTime: 6s
+    database:
+      name: bdjuno
+      host: bdjuno-db
+      port: 5432
+      user: bdjuno
+      password: bdjuno
+      schema: bdjuno
+      maxConnections: 1
+      partitionSize: 100000
+      partitionBatch: 1000
+  resources:
+    limits:
+      cpu: 2
+      memory: 1792Mi
+    requests:
+      cpu: 2
+      memory: 1792Mi
