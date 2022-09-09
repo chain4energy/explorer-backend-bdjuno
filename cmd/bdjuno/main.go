@@ -16,6 +16,7 @@ import (
 	"github.com/forbole/bdjuno/v3/database"
 	"github.com/forbole/bdjuno/v3/modules"
 
+	c4eapp "github.com/chain4energy/c4e-chain/app"
 	gaiaapp "github.com/cosmos/gaia/v7/app"
 )
 
@@ -56,6 +57,7 @@ func main() {
 func getBasicManagers() []module.BasicManager {
 	return []module.BasicManager{
 		gaiaapp.ModuleBasics,
+		c4eapp.ModuleBasics,
 	}
 }
 
