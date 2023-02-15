@@ -5,10 +5,7 @@ metadata:
 data:
   config.yaml: |
     chain:
-        bech32_prefix:
-            {{- range .Values.bdjuno.config.chain.bech32Prefix }}
-              - {{ . }}
-            {{- end}}
+        bech32_prefix: c4e
         modules:
             - gov    
             - consensus
@@ -33,7 +30,6 @@ data:
                 max_connections: {{ .Values.bdjuno.config.rpc.maxConnections }}
             grpc:
                 address: {{ .Values.bdjuno.config.grpc.address }}
-                insecure: true
     parsing:
         workers: {{ .Values.bdjuno.config.parsing.workers }}
         listen_new_blocks: true

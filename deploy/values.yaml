@@ -1,19 +1,19 @@
 bdjuno:
-  imageName: todo
+  imageName: g99vzm03.gra7.container-registry.ovh.net/c4e-chain/explorer-backend-bdjuno:v1.0.0-rc0
   genesisUrl: https://raw.githubusercontent.com/chain4energy/c4e-chains/main/perun-1/genesis.json
   config:
-    loggingLevel: debug
+    loggingLevel: error
     chain:
       bech32Prefix:
         - c4e
         - cosmos
       additionalModules:
     rpc:
-      clientName: juno
-      address: todo
+      clientName: c4e
+      address: https://rpc.c4e.io:443
       maxConnections: 20
     grpc:
-      address: todo
+      address: https://grpc.c4e.io:8443
     parsing:
       workers: 4
       startHeight: 1
@@ -23,8 +23,8 @@ bdjuno:
       host: bdjuno-db
       port: 5432
       user: bdjuno
-      password: bdjuno
-      schema: bdjuno
+      password: Vq03bqcgYPTS9ua80o5SrbL8
+      schema: public
       maxConnections: 1
       partitionSize: 100000
       partitionBatch: 1000

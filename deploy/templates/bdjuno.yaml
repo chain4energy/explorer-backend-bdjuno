@@ -28,7 +28,7 @@ spec:
               mountPath: "/.bdjuno"
       containers:
         - name: bdjuno
-          image: {{ .Values.bdjuno.imageName }}:{{ .Values.buildTag }}
+          image: {{ .Values.bdjuno.imageName }}
           command: ["bdjuno", "start", "--home", "/bdjuno/.bdjuno"]
           volumeMounts:
             - name: bdjuno-config-{{ .Values.deploymentTag }}
@@ -37,6 +37,8 @@ spec:
             - name: bdjuno-home
               mountPath: /bdjuno/.bdjuno/genesis.json
               subPath: genesis.json
+      imagePullSecrets:
+        - name: regcred
       volumes:
         - name: bdjuno-config-{{ .Values.deploymentTag }}
           configMap:

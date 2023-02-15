@@ -2,6 +2,9 @@ package types
 
 import (
 	"fmt"
+	c4eapp "github.com/chain4energy/c4e-chain/app"
+	cfemintertypes "github.com/chain4energy/c4e-chain/x/cfeminter/types"
+	"github.com/ignite/cli/ignite/pkg/cosmoscmd"
 	"os"
 
 	"github.com/cosmos/cosmos-sdk/simapp"
@@ -13,7 +16,6 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
-	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	slashingtypes "github.com/cosmos/cosmos-sdk/x/slashing/types"
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
@@ -68,32 +70,32 @@ func buildLocalSources(cfg *local.Details, encodingConfig *params.EncodingConfig
 		return nil, err
 	}
 
-	app := simapp.NewSimApp(
+	app := c4eapp.New(
 		log.NewTMLogger(log.NewSyncWriter(os.Stdout)), source.StoreDB, nil, true, map[int64]bool{},
-		cfg.Home, 0, simapp.MakeTestEncodingConfig(), simapp.EmptyAppOptions{},
+		cfg.Home, 0, cosmoscmd.EncodingConfig(simapp.MakeTestEncodingConfig()), simapp.EmptyAppOptions{},
 	)
-
+	newC4eApp := app.(*c4eapp.App)
 	sources := &Sources{
-		BankSource:     localbanksource.NewSource(source, banktypes.QueryServer(app.BankKeeper)),
-		DistrSource:    localdistrsource.NewSource(source, distrtypes.QueryServer(app.DistrKeeper)),
-		GovSource:      localgovsource.NewSource(source, govtypes.QueryServer(app.GovKeeper)),
-		MintSource:     localmintsource.NewSource(source, minttypes.QueryServer(app.MintKeeper)),
-		SlashingSource: localslashingsource.NewSource(source, slashingtypes.QueryServer(app.SlashingKeeper)),
-		StakingSource:  localstakingsource.NewSource(source, stakingkeeper.Querier{Keeper: app.StakingKeeper}),
+		BankSource:     localbanksource.NewSource(source, banktypes.QueryServer(newC4eApp.BankKeeper)),
+		DistrSource:    localdistrsource.NewSource(source, distrtypes.QueryServer(newC4eApp.DistrKeeper)),
+		GovSource:      localgovsource.NewSource(source, govtypes.QueryServer(newC4eApp.GovKeeper)),
+		MintSource:     localmintsource.NewSource(source, cfemintertypes.QueryServer(newC4eApp.CfeminterKeeper)),
+		SlashingSource: localslashingsource.NewSource(source, slashingtypes.QueryServer(newC4eApp.SlashingKeeper)),
+		StakingSource:  localstakingsource.NewSource(source, stakingkeeper.Querier{Keeper: newC4eApp.StakingKeeper}),
 	}
 
 	// Mount and initialize the stores
-	err = source.MountKVStores(app, "keys")
+	err = source.MountKVStores(newC4eApp, "keys")
 	if err != nil {
 		return nil, err
 	}
 
-	err = source.MountTransientStores(app, "tkeys")
+	err = source.MountTransientStores(newC4eApp, "tkeys")
 	if err != nil {
 		return nil, err
 	}
 
-	err = source.MountMemoryStores(app, "memKeys")
+	err = source.MountMemoryStores(newC4eApp, "memKeys")
 	if err != nil {
 		return nil, err
 	}
@@ -116,7 +118,7 @@ func buildRemoteSources(cfg *remote.Details) (*Sources, error) {
 		BankSource:     remotebanksource.NewSource(source, banktypes.NewQueryClient(source.GrpcConn)),
 		DistrSource:    remotedistrsource.NewSource(source, distrtypes.NewQueryClient(source.GrpcConn)),
 		GovSource:      remotegovsource.NewSource(source, govtypes.NewQueryClient(source.GrpcConn)),
-		MintSource:     remotemintsource.NewSource(source, minttypes.NewQueryClient(source.GrpcConn)),
+		MintSource:     remotemintsource.NewSource(source, cfemintertypes.NewQueryClient(source.GrpcConn)),
 		SlashingSource: remoteslashingsource.NewSource(source, slashingtypes.NewQueryClient(source.GrpcConn)),
 		StakingSource:  remotestakingsource.NewSource(source, stakingtypes.NewQueryClient(source.GrpcConn)),
 	}, nil

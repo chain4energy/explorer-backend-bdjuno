@@ -1,4 +1,4 @@
-- name: bdjuno
+- name: c4e
   kind: postgres
   configuration:
     connection_info:
