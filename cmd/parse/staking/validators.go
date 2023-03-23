@@ -5,8 +5,8 @@ import (
 
 	modulestypes "github.com/forbole/bdjuno/v4/modules/types"
 
-	parsecmdtypes "github.com/forbole/juno/v4/cmd/parse/types"
-	"github.com/forbole/juno/v4/types/config"
+	parsecmdtypes "github.com/chain4energy/juno/v4/cmd/parse/types"
+	"github.com/chain4energy/juno/v4/types/config"
 	"github.com/spf13/cobra"
 
 	"github.com/forbole/bdjuno/v4/database"
@@ -41,18 +41,9 @@ func validatorsCmd(parseConfig *parsecmdtypes.Config) *cobra.Command {
 				return fmt.Errorf("error while getting latest block height: %s", err)
 			}
 
-			// Get all validators
-			validators, err := sources.StakingSource.GetValidatorsWithStatus(height, "")
+			err = stakingModule.RefreshAllValidatorInfos(height)
 			if err != nil {
-				return fmt.Errorf("error while getting validators: %s", err)
-			}
-
-			// Refresh each validator
-			for _, validator := range validators {
-				err = stakingModule.RefreshValidatorInfos(height, validator.OperatorAddress)
-				if err != nil {
-					return fmt.Errorf("error while refreshing validator: %s", err)
-				}
+				return fmt.Errorf("error while refreshing all validators infos: %s", err)
 			}
 
 			return nil

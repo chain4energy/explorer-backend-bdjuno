@@ -5,8 +5,8 @@ import (
 
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
+	juno "github.com/chain4energy/juno/v4/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	juno "github.com/forbole/juno/v4/types"
 )
 
 // HandleMsg implements MessageModule

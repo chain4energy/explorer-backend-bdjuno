@@ -1,7 +1,7 @@
 package feegrant
 
 import (
-	parsecmdtypes "github.com/forbole/juno/v4/cmd/parse/types"
+	parsecmdtypes "github.com/chain4energy/juno/v4/cmd/parse/types"
 	"github.com/spf13/cobra"
 )
 

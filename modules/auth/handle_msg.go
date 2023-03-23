@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
+	juno "github.com/chain4energy/juno/v4/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	juno "github.com/forbole/juno/v4/types"
 	"github.com/gogo/protobuf/proto"
 	"github.com/rs/zerolog/log"
 

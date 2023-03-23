@@ -1,8 +1,8 @@
 package remote
 
 import (
+	"github.com/chain4energy/juno/v4/node/remote"
 	govtypesv1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1"
-	"github.com/forbole/juno/v4/node/remote"
 
 	govtypesv1beta1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 	govsource "github.com/forbole/bdjuno/v4/modules/gov/source"

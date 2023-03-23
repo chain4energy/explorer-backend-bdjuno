@@ -5,7 +5,7 @@ import (
 
 	distrsource "github.com/forbole/bdjuno/v4/modules/distribution/source"
 
-	"github.com/forbole/juno/v4/modules"
+	"github.com/chain4energy/juno/v4/modules"
 
 	"github.com/forbole/bdjuno/v4/database"
 )

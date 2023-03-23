@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	parsecmdtypes "github.com/forbole/juno/v4/cmd/parse/types"
+	parsecmdtypes "github.com/chain4energy/juno/v4/cmd/parse/types"
 	"github.com/spf13/cobra"
 
 	v3 "github.com/forbole/bdjuno/v4/cmd/migrate/v3"

@@ -1,12 +1,12 @@
 package actions
 
 import (
+	"github.com/chain4energy/juno/v4/modules"
+	"github.com/chain4energy/juno/v4/node"
+	"github.com/chain4energy/juno/v4/node/builder"
+	nodeconfig "github.com/chain4energy/juno/v4/node/config"
+	"github.com/chain4energy/juno/v4/types/config"
 	"github.com/cosmos/cosmos-sdk/simapp/params"
-	"github.com/forbole/juno/v4/modules"
-	"github.com/forbole/juno/v4/node"
-	"github.com/forbole/juno/v4/node/builder"
-	nodeconfig "github.com/forbole/juno/v4/node/config"
-	"github.com/forbole/juno/v4/types/config"
 
 	modulestypes "github.com/forbole/bdjuno/v4/modules/types"
 )

@@ -1,12 +1,12 @@
 package main
 
 import (
+	"github.com/chain4energy/juno/v4/cmd"
+	initcmd "github.com/chain4energy/juno/v4/cmd/init"
+	parsetypes "github.com/chain4energy/juno/v4/cmd/parse/types"
+	startcmd "github.com/chain4energy/juno/v4/cmd/start"
+	"github.com/chain4energy/juno/v4/modules/messages"
 	"github.com/cosmos/cosmos-sdk/types/module"
-	"github.com/forbole/juno/v4/cmd"
-	initcmd "github.com/forbole/juno/v4/cmd/init"
-	parsetypes "github.com/forbole/juno/v4/cmd/parse/types"
-	startcmd "github.com/forbole/juno/v4/cmd/start"
-	"github.com/forbole/juno/v4/modules/messages"
 
 	migratecmd "github.com/forbole/bdjuno/v4/cmd/migrate"
 	parsecmd "github.com/forbole/bdjuno/v4/cmd/parse"

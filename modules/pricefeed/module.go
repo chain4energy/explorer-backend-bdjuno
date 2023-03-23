@@ -1,12 +1,12 @@
 package pricefeed
 
 import (
+	"github.com/chain4energy/juno/v4/types/config"
 	"github.com/cosmos/cosmos-sdk/codec"
-	"github.com/forbole/juno/v4/types/config"
 
 	"github.com/forbole/bdjuno/v4/database"
 
-	"github.com/forbole/juno/v4/modules"
+	"github.com/chain4energy/juno/v4/modules"
 )
 
 var (

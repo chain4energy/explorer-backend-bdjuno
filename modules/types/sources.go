@@ -4,22 +4,22 @@ import (
 	"fmt"
 	c4eapp "github.com/chain4energy/c4e-chain/app"
 	cfemintertypes "github.com/chain4energy/c4e-chain/x/cfeminter/types"
+	"github.com/chain4energy/juno/v4/node/remote"
 	"github.com/cosmos/cosmos-sdk/simapp"
 	"github.com/cosmos/cosmos-sdk/simapp/params"
 	govtypesv1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1"
 	govtypesv1beta1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
-	"github.com/forbole/juno/v4/node/remote"
 	"github.com/tendermint/tendermint/libs/log"
 	"os"
 
+	"github.com/chain4energy/juno/v4/node/local"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	slashingtypes "github.com/cosmos/cosmos-sdk/x/slashing/types"
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	"github.com/forbole/juno/v4/node/local"
 
-	nodeconfig "github.com/forbole/juno/v4/node/config"
+	nodeconfig "github.com/chain4energy/juno/v4/node/config"
 
 	banksource "github.com/forbole/bdjuno/v4/modules/bank/source"
 	localbanksource "github.com/forbole/bdjuno/v4/modules/bank/source/local"
@@ -76,7 +76,7 @@ func buildLocalSources(cfg *local.Details, encodingConfig *params.EncodingConfig
 	sources := &Sources{
 		BankSource:     localbanksource.NewSource(source, banktypes.QueryServer(newC4eApp.BankKeeper)),
 		DistrSource:    localdistrsource.NewSource(source, distrtypes.QueryServer(newC4eApp.DistrKeeper)),
-		GovSource:      localgovsource.NewSource(source, govtypesv1.QueryServer(app.GovKeeper), nil),
+		GovSource:      localgovsource.NewSource(source, govtypesv1.QueryServer(newC4eApp.GovKeeper), nil),
 		MintSource:     localmintsource.NewSource(source, cfemintertypes.QueryServer(newC4eApp.CfeminterKeeper)),
 		SlashingSource: localslashingsource.NewSource(source, slashingtypes.QueryServer(newC4eApp.SlashingKeeper)),
 		StakingSource:  localstakingsource.NewSource(source, stakingkeeper.Querier{Keeper: newC4eApp.StakingKeeper}),

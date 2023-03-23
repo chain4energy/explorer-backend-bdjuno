@@ -3,8 +3,8 @@ package local
 import (
 	"fmt"
 	cfeminter "github.com/chain4energy/c4e-chain/x/cfeminter/types"
+	"github.com/chain4energy/juno/v4/node/local"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/forbole/juno/v4/node/local"
 
 	mintsource "github.com/forbole/bdjuno/v4/modules/mint/source"
 )

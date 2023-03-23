@@ -2,12 +2,11 @@ package v3
 
 import (
 	"fmt"
+	"github.com/chain4energy/juno/v4/types/config"
+	yaml "gopkg.in/yaml.v3"
 	"io/ioutil"
 	"os"
 	"path"
-
-	"github.com/forbole/juno/v4/types/config"
-	"gopkg.in/yaml.v3"
 )
 
 // GetConfig returns the configuration reading it from the config.yaml file present inside the home directory
