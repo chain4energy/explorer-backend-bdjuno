@@ -7,14 +7,14 @@ import (
 	parsecmdtypes "github.com/chain4energy/juno/v4/cmd/parse/types"
 	"github.com/spf13/cobra"
 
-	v3 "github.com/forbole/bdjuno/v4/cmd/migrate/v3"
+	v4 "github.com/forbole/bdjuno/v4/cmd/migrate/v4"
 )
 
 type Migrator func(parseCfg *parsecmdtypes.Config) error
 
 var (
 	migrations = map[string]Migrator{
-		"v3": v3.RunMigration,
+		"v4": v4.RunMigration,
 	}
 )
 
