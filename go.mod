@@ -5,7 +5,7 @@ go 1.19
 require (
 	cosmossdk.io/math v1.0.0-beta.3
 	github.com/chain4energy/c4e-chain v1.2.0-rc0
-	github.com/chain4energy/juno/v4 v4.1.1-0.20230324133643-0b2e0ebc1d5f
+	github.com/chain4energy/juno/v4 v4.1.1-0.20230324145051-42a4167086b8
 	github.com/cosmos/cosmos-sdk v0.46.10
 	github.com/go-co-op/gocron v1.18.0
 	github.com/gogo/protobuf v1.3.3
