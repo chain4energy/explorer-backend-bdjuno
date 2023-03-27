@@ -126,6 +126,12 @@ func NewGenesisGovParams(votingParams VotingParams, depositParams DepositParams,
 
 // --------------------------------------------------------------------------------------------------------------------
 
+// CustomProposalMetadata represents a single governance proposal
+type CustomProposalMetadata struct {
+	Title       string
+	Description string
+}
+
 // LegacyProposal represents a single governance proposal
 type LegacyProposal struct {
 	ProposalRoute   string
@@ -142,16 +148,17 @@ type LegacyProposal struct {
 
 // Proposal represents a single governance proposal
 type Proposal struct {
-	Messages        []*types.Any
-	ProposalRoute   string
-	ProposalType    string
-	ProposalID      uint64
-	Status          string
-	SubmitTime      time.Time
-	DepositEndTime  time.Time
-	VotingStartTime time.Time
-	VotingEndTime   time.Time
-	Proposer        string
+	Messages               []*types.Any
+	ProposalRoute          string
+	ProposalType           string
+	ProposalID             uint64
+	Status                 string
+	CustomProposalMetadata CustomProposalMetadata
+	SubmitTime             time.Time
+	DepositEndTime         time.Time
+	VotingStartTime        time.Time
+	VotingEndTime          time.Time
+	Proposer               string
 }
 
 // NewLegacyProposal return a new LegacyProposal instance
@@ -187,6 +194,7 @@ func NewProposal(
 	proposalRoute string,
 	proposalType string,
 	messages []*types.Any,
+	customProposalMetadata CustomProposalMetadata,
 	status string,
 	submitTime time.Time,
 	depositEndTime time.Time,
@@ -195,16 +203,17 @@ func NewProposal(
 	proposer string,
 ) Proposal {
 	return Proposal{
-		Messages:        messages,
-		ProposalRoute:   proposalRoute,
-		ProposalType:    proposalType,
-		ProposalID:      proposalID,
-		Status:          status,
-		SubmitTime:      submitTime,
-		DepositEndTime:  depositEndTime,
-		VotingStartTime: votingStartTime,
-		VotingEndTime:   votingEndTime,
-		Proposer:        proposer,
+		CustomProposalMetadata: customProposalMetadata,
+		Messages:               messages,
+		ProposalRoute:          proposalRoute,
+		ProposalType:           proposalType,
+		ProposalID:             proposalID,
+		Status:                 status,
+		SubmitTime:             submitTime,
+		DepositEndTime:         depositEndTime,
+		VotingStartTime:        votingStartTime,
+		VotingEndTime:          votingEndTime,
+		Proposer:               proposer,
 	}
 }
 

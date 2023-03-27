@@ -1,10 +1,13 @@
 package local
 
 import (
+	"encoding/json"
 	"fmt"
 	cfeminter "github.com/chain4energy/c4e-chain/x/cfeminter/types"
 	"github.com/chain4energy/juno/v4/node/local"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"io"
+	"net/http"
 
 	mintsource "github.com/forbole/bdjuno/v4/modules/mint/source"
 )
@@ -29,17 +32,24 @@ func NewSource(source *local.Source, querier cfeminter.QueryServer) *Source {
 
 // GetInflation implements mintsource.Source
 func (s Source) GetInflation(height int64) (sdk.Dec, error) {
-	ctx, err := s.LoadHeight(height)
-	if err != nil {
-		return sdk.Dec{}, fmt.Errorf("error while loading height: %s", err)
-	}
-
-	res, err := s.querier.Inflation(sdk.WrapSDKContext(ctx), &cfeminter.QueryInflationRequest{})
+	resp, err := http.Get("http://localhost:1317/c4e/minter/v1beta1/inflation")
+	defer resp.Body.Close()
 	if err != nil {
 		return sdk.Dec{}, err
 	}
 
-	return res.Inflation, nil
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return sdk.Dec{}, err
+	}
+
+	var queryInflationResponse cfeminter.QueryInflationResponse
+	err = json.Unmarshal(body, &queryInflationResponse)
+	if err != nil {
+		return sdk.Dec{}, err
+	}
+
+	return queryInflationResponse.Inflation, nil
 }
 
 // Params implements mintsource.Source

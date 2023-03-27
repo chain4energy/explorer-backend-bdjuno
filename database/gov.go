@@ -233,8 +233,8 @@ INSERT INTO proposal(
 
 		proposalsParams = append(proposalsParams,
 			proposal.ProposalID,
-			"Title",
-			"Description",
+			proposal.CustomProposalMetadata.Title,
+			proposal.CustomProposalMetadata.Description,
 			string(contentBz),
 			proposal.Proposer,
 			proposal.ProposalRoute,

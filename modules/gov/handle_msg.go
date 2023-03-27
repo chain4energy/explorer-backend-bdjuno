@@ -1,6 +1,7 @@
 package gov
 
 import (
+	"encoding/json"
 	"fmt"
 	"time"
 
@@ -114,11 +115,17 @@ func (m *Module) handleMsgSubmitProposal(tx *juno.Tx, index int, msg *govtypesv1
 		return fmt.Errorf("error while getting proposal: %s", err)
 	}
 
+	var customProposalMetadata types.CustomProposalMetadata
+	if err = json.Unmarshal([]byte(proposal.Metadata), &customProposalMetadata); err != nil {
+		return err
+	}
+
 	proposalObj := types.NewProposal(
 		proposal.Id,
 		msg.Messages[0].TypeUrl,
 		msg.Messages[0].TypeUrl,
 		proposal.Messages,
+		customProposalMetadata,
 		proposal.Status.String(),
 		*proposal.SubmitTime,
 		*proposal.DepositEndTime,
