@@ -107,7 +107,7 @@ func buildLocalSources(cfg *local.Details, encodingConfig *params.EncodingConfig
 }
 
 func buildRemoteSources(cfg *remote.Details) (*Sources, error) {
-	source, err := remote.NewSource(cfg.GRPC)
+	source, err := remote.NewSource(cfg.GRPC, cfg.REST.Address)
 	if err != nil {
 		return nil, fmt.Errorf("error while creating remote source: %s", err)
 	}

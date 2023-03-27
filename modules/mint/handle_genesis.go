@@ -3,12 +3,12 @@ package mint
 import (
 	"encoding/json"
 	"fmt"
+	cfemintertypes "github.com/chain4energy/c4e-chain/x/cfeminter/types"
 
 	tmtypes "github.com/tendermint/tendermint/types"
 
 	"github.com/forbole/bdjuno/v4/types"
 
-	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	"github.com/rs/zerolog/log"
 )
 
@@ -17,8 +17,8 @@ func (m *Module) HandleGenesis(doc *tmtypes.GenesisDoc, appState map[string]json
 	log.Debug().Str("module", "mint").Msg("parsing genesis")
 
 	// Read the genesis state
-	var genState minttypes.GenesisState
-	err := m.cdc.UnmarshalJSON(appState[minttypes.ModuleName], &genState)
+	var genState cfemintertypes.GenesisState
+	err := m.cdc.UnmarshalJSON(appState[cfemintertypes.ModuleName], &genState)
 	if err != nil {
 		return fmt.Errorf("error while reading mint genesis data: %s", err)
 	}

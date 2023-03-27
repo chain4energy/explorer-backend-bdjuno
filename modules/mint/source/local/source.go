@@ -31,7 +31,7 @@ func NewSource(source *local.Source, querier cfeminter.QueryServer) *Source {
 }
 
 // GetInflation implements mintsource.Source
-func (s Source) GetInflation(height int64) (sdk.Dec, error) {
+func (s Source) GetInflation() (sdk.Dec, error) {
 	resp, err := http.Get("http://localhost:1317/c4e/minter/v1beta1/inflation")
 	defer resp.Body.Close()
 	if err != nil {

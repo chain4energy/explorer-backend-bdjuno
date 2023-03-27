@@ -34,7 +34,7 @@ func (m *Module) UpdateInflation() error {
 	}
 
 	// Get the inflation
-	inflation, err := m.source.GetInflation(height)
+	inflation, err := m.source.GetInflation()
 	if err != nil {
 		return err
 	}

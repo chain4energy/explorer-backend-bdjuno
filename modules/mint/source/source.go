@@ -6,6 +6,6 @@ import (
 )
 
 type Source interface {
-	GetInflation(height int64) (sdk.Dec, error)
+	GetInflation() (sdk.Dec, error)
 	Params(height int64) (cfeminter.Params, error)
 }
