@@ -129,8 +129,8 @@ func (db *Db) GetGovParams() (*types.GovParams, error) {
 
 // --------------------------------------------------------------------------------------------------------------------
 
-// SaveProposals allows to save for the given height the given total amount of coins
-func (db *Db) SaveProposals(proposals []types.Proposal) error {
+// SaveLegacyProposals allows to save for the given height the given total amount of coins
+func (db *Db) SaveLegacyProposals(proposals []types.LegacyProposal) error {
 	if len(proposals) == 0 {
 		return nil
 	}
@@ -202,16 +202,78 @@ INSERT INTO proposal(
 	return nil
 }
 
+// SaveLegacyProposals allows to save for the given height the given total amount of coins
+func (db *Db) SaveProposals(proposals []types.Proposal) error {
+	if len(proposals) == 0 {
+		return nil
+	}
+
+	var accounts []types.Account
+
+	proposalsQuery := `
+INSERT INTO proposal(
+	id, title, description, content, proposer_address, proposal_route, proposal_type, status,
+    submit_time, deposit_end_time, voting_start_time, voting_end_time
+) VALUES`
+	var proposalsParams []interface{}
+
+	for i, proposal := range proposals {
+		// Prepare the account query
+		accounts = append(accounts, types.NewAccount(proposal.Proposer))
+
+		// Prepare the proposal query
+		vi := i * 12
+		proposalsQuery += fmt.Sprintf("($%d,$%d,$%d,$%d,$%d,$%d,$%d,$%d,$%d,$%d,$%d,$%d),",
+			vi+1, vi+2, vi+3, vi+4, vi+5, vi+6, vi+7, vi+8, vi+9, vi+10, vi+11, vi+12)
+
+		contentBz, err := db.EncodingConfig.Codec.MarshalJSON(proposal.Messages[0])
+		if err != nil {
+			return fmt.Errorf("error while marshaling proposal content: %s", err)
+		}
+
+		proposalsParams = append(proposalsParams,
+			proposal.ProposalID,
+			"Title",
+			"Description",
+			string(contentBz),
+			proposal.Proposer,
+			proposal.ProposalRoute,
+			proposal.ProposalType,
+			proposal.Status,
+			proposal.SubmitTime,
+			proposal.DepositEndTime,
+			proposal.VotingStartTime,
+			proposal.VotingEndTime,
+		)
+	}
+
+	// Store the accounts
+	err := db.SaveAccounts(accounts)
+	if err != nil {
+		return fmt.Errorf("error while storing proposers accounts: %s", err)
+	}
+
+	// Store the proposals
+	proposalsQuery = proposalsQuery[:len(proposalsQuery)-1] // Remove trailing ","
+	proposalsQuery += " ON CONFLICT DO NOTHING"
+	_, err = db.SQL.Exec(proposalsQuery, proposalsParams...)
+	if err != nil {
+		return fmt.Errorf("error while storing proposals: %s", err)
+	}
+
+	return nil
+}
+
 // GetProposal returns the proposal with the given id, or nil if not found
-func (db *Db) GetProposal(id uint64) (types.Proposal, error) {
+func (db *Db) GetProposal(id uint64) (types.LegacyProposal, error) {
 	var rows []*dbtypes.ProposalRow
 	err := db.Sqlx.Select(&rows, `SELECT * FROM proposal WHERE id = $1`, id)
 	if err != nil {
-		return types.Proposal{}, err
+		return types.LegacyProposal{}, err
 	}
 
 	if len(rows) == 0 {
-		return types.Proposal{}, nil
+		return types.LegacyProposal{}, nil
 	}
 
 	row := rows[0]
@@ -219,16 +281,16 @@ func (db *Db) GetProposal(id uint64) (types.Proposal, error) {
 	var contentAny codectypes.Any
 	err = db.EncodingConfig.Codec.UnmarshalJSON([]byte(row.Content), &contentAny)
 	if err != nil {
-		return types.Proposal{}, err
+		return types.LegacyProposal{}, err
 	}
 
 	var content govtypesv1beta1.Content
 	err = db.EncodingConfig.Codec.UnpackAny(&contentAny, &content)
 	if err != nil {
-		return types.Proposal{}, err
+		return types.LegacyProposal{}, err
 	}
 
-	proposal := types.NewProposal(
+	proposal := types.NewLegacyProposal(
 		row.ProposalID,
 		row.ProposalRoute,
 		row.ProposalType,

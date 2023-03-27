@@ -69,7 +69,7 @@ func (suite *DbTestSuite) TestBigDipperDb_SaveGovParams() {
 
 // -------------------------------------------------------------------------------------------------------------------
 
-func (suite *DbTestSuite) getProposalRow(id int) types.Proposal {
+func (suite *DbTestSuite) getProposalRow(id int) types.LegacyProposal {
 	proposer := suite.getAccount("cosmos1z4hfrxvlgl4s8u4n5ngjcw8kdqrcv43599amxs")
 
 	title := fmt.Sprintf("title%d", id)
@@ -77,7 +77,7 @@ func (suite *DbTestSuite) getProposalRow(id int) types.Proposal {
 	proposalRoute := fmt.Sprintf("proposalRoute%d", id)
 	proposalType := fmt.Sprintf("proposalType%d", id)
 
-	proposal := types.NewProposal(
+	proposal := types.NewLegacyProposal(
 		uint64(id),
 		proposalRoute,
 		proposalType,
@@ -90,7 +90,7 @@ func (suite *DbTestSuite) getProposalRow(id int) types.Proposal {
 		proposer.String(),
 	)
 
-	err := suite.database.SaveProposals([]types.Proposal{proposal})
+	err := suite.database.SaveLegacyProposals([]types.LegacyProposal{proposal})
 	suite.Require().NoError(err)
 
 	return proposal
@@ -115,8 +115,8 @@ func (suite *DbTestSuite) TestBigDipperDb_SaveProposals() {
 
 	content1 := govtypes.NewTextProposal("title", "description")
 	content2 := govtypes.NewTextProposal("title1", "description1")
-	input := []types.Proposal{
-		types.NewProposal(
+	input := []types.LegacyProposal{
+		types.NewLegacyProposal(
 			1,
 			"proposalRoute",
 			"proposalType",
@@ -128,7 +128,7 @@ func (suite *DbTestSuite) TestBigDipperDb_SaveProposals() {
 			time.Date(2020, 1, 1, 03, 00, 00, 000, time.UTC),
 			proposer1.String(),
 		),
-		types.NewProposal(
+		types.NewLegacyProposal(
 			2,
 			"proposalRoute1",
 			"proposalType1",
@@ -142,7 +142,7 @@ func (suite *DbTestSuite) TestBigDipperDb_SaveProposals() {
 		),
 	}
 
-	err := suite.database.SaveProposals(input)
+	err := suite.database.SaveLegacyProposals(input)
 	suite.Require().NoError(err)
 
 	var proposalRow []dbtypes.ProposalRow
@@ -187,7 +187,7 @@ func (suite *DbTestSuite) TestBigDipperDb_SaveProposals() {
 func (suite *DbTestSuite) TestBigDipperDb_GetProposal() {
 	content := govtypes.NewTextProposal("title", "description")
 	proposer := suite.getAccount("cosmos1z4hfrxvlgl4s8u4n5ngjcw8kdqrcv43599amxs")
-	proposal := types.NewProposal(
+	proposal := types.NewLegacyProposal(
 		1,
 		"proposalRoute",
 		"proposalType",
@@ -199,9 +199,9 @@ func (suite *DbTestSuite) TestBigDipperDb_GetProposal() {
 		time.Date(2020, 1, 1, 03, 00, 00, 000, time.UTC),
 		proposer.String(),
 	)
-	input := []types.Proposal{proposal}
+	input := []types.LegacyProposal{proposal}
 
-	err := suite.database.SaveProposals(input)
+	err := suite.database.SaveLegacyProposals(input)
 	suite.Require().NoError(err)
 
 	stored, err := suite.database.GetProposal(1)
@@ -215,8 +215,8 @@ func (suite *DbTestSuite) TestBigDipperDb_GetOpenProposalsIds() {
 
 	content1 := govtypes.NewTextProposal("title", "description")
 	content2 := govtypes.NewTextProposal("title1", "description1")
-	input := []types.Proposal{
-		types.NewProposal(
+	input := []types.LegacyProposal{
+		types.NewLegacyProposal(
 			1,
 			"proposalRoute",
 			"proposalType",
@@ -228,7 +228,7 @@ func (suite *DbTestSuite) TestBigDipperDb_GetOpenProposalsIds() {
 			time.Date(2020, 1, 1, 03, 00, 00, 000, time.UTC),
 			proposer1.String(),
 		),
-		types.NewProposal(
+		types.NewLegacyProposal(
 			2,
 			"proposalRoute",
 			"proposalType",
@@ -240,7 +240,7 @@ func (suite *DbTestSuite) TestBigDipperDb_GetOpenProposalsIds() {
 			time.Date(2020, 1, 1, 03, 00, 00, 000, time.UTC),
 			proposer1.String(),
 		),
-		types.NewProposal(
+		types.NewLegacyProposal(
 			3,
 			"proposalRoute1",
 			"proposalType1",
@@ -252,7 +252,7 @@ func (suite *DbTestSuite) TestBigDipperDb_GetOpenProposalsIds() {
 			time.Date(2020, 1, 2, 03, 00, 00, 000, time.UTC),
 			proposer2.String(),
 		),
-		types.NewProposal(
+		types.NewLegacyProposal(
 			5,
 			"proposalRoute1",
 			"proposalType1",
@@ -266,7 +266,7 @@ func (suite *DbTestSuite) TestBigDipperDb_GetOpenProposalsIds() {
 		),
 	}
 
-	err := suite.database.SaveProposals(input)
+	err := suite.database.SaveLegacyProposals(input)
 	suite.Require().NoError(err)
 
 	ids, err := suite.database.GetOpenProposalsIds()

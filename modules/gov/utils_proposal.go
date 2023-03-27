@@ -25,7 +25,7 @@ import (
 
 func (m *Module) UpdateProposal(height int64, blockTime time.Time, id uint64) error {
 	// Get the proposal
-	proposal, err := m.source.Proposal(height, id)
+	proposal, err := m.source.LegacyProposal(height, id)
 	if err != nil {
 		// Check if proposal exist on the chain
 		if strings.Contains(err.Error(), codes.NotFound.String()) && strings.Contains(err.Error(), "doesn't exist") {

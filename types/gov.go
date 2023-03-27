@@ -1,6 +1,7 @@
 package types
 
 import (
+	"github.com/cosmos/cosmos-sdk/codec/types"
 	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -125,8 +126,8 @@ func NewGenesisGovParams(votingParams VotingParams, depositParams DepositParams,
 
 // --------------------------------------------------------------------------------------------------------------------
 
-// Proposal represents a single governance proposal
-type Proposal struct {
+// LegacyProposal represents a single governance proposal
+type LegacyProposal struct {
 	ProposalRoute   string
 	ProposalType    string
 	ProposalID      uint64
@@ -139,8 +140,22 @@ type Proposal struct {
 	Proposer        string
 }
 
-// NewProposal return a new Proposal instance
-func NewProposal(
+// Proposal represents a single governance proposal
+type Proposal struct {
+	Messages        []*types.Any
+	ProposalRoute   string
+	ProposalType    string
+	ProposalID      uint64
+	Status          string
+	SubmitTime      time.Time
+	DepositEndTime  time.Time
+	VotingStartTime time.Time
+	VotingEndTime   time.Time
+	Proposer        string
+}
+
+// NewLegacyProposal return a new LegacyProposal instance
+func NewLegacyProposal(
 	proposalID uint64,
 	proposalRoute string,
 	proposalType string,
@@ -151,8 +166,8 @@ func NewProposal(
 	votingStartTime time.Time,
 	votingEndTime time.Time,
 	proposer string,
-) Proposal {
-	return Proposal{
+) LegacyProposal {
+	return LegacyProposal{
 		Content:         content,
 		ProposalRoute:   proposalRoute,
 		ProposalType:    proposalType,
@@ -166,8 +181,35 @@ func NewProposal(
 	}
 }
 
+// NewLegacyProposal return a new LegacyProposal instance
+func NewProposal(
+	proposalID uint64,
+	proposalRoute string,
+	proposalType string,
+	messages []*types.Any,
+	status string,
+	submitTime time.Time,
+	depositEndTime time.Time,
+	votingStartTime time.Time,
+	votingEndTime time.Time,
+	proposer string,
+) Proposal {
+	return Proposal{
+		Messages:        messages,
+		ProposalRoute:   proposalRoute,
+		ProposalType:    proposalType,
+		ProposalID:      proposalID,
+		Status:          status,
+		SubmitTime:      submitTime,
+		DepositEndTime:  depositEndTime,
+		VotingStartTime: votingStartTime,
+		VotingEndTime:   votingEndTime,
+		Proposer:        proposer,
+	}
+}
+
 // Equal tells whether p and other contain the same data
-func (p Proposal) Equal(other Proposal) bool {
+func (p LegacyProposal) Equal(other LegacyProposal) bool {
 	return p.ProposalRoute == other.ProposalRoute &&
 		p.ProposalType == other.ProposalType &&
 		p.ProposalID == other.ProposalID &&

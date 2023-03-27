@@ -46,13 +46,13 @@ func (m *Module) HandleGenesis(doc *tmtypes.GenesisDoc, appState map[string]json
 
 // saveGenesisProposals save proposals from genesis file
 func (m *Module) saveGenesisProposals(slice govtypesv1beta1.Proposals, genDoc *tmtypes.GenesisDoc) error {
-	proposals := make([]types.Proposal, len(slice))
+	proposals := make([]types.LegacyProposal, len(slice))
 	tallyResults := make([]types.TallyResult, len(slice))
 	deposits := make([]types.Deposit, len(slice))
 
 	for index, proposal := range slice {
 		// Since it's not possible to get the proposer, set it to nil
-		proposals[index] = types.NewProposal(
+		proposals[index] = types.NewLegacyProposal(
 			proposal.ProposalId,
 			proposal.ProposalRoute(),
 			proposal.ProposalType(),
@@ -84,7 +84,7 @@ func (m *Module) saveGenesisProposals(slice govtypesv1beta1.Proposals, genDoc *t
 	}
 
 	// Save the proposals
-	err := m.db.SaveProposals(proposals)
+	err := m.db.SaveLegacyProposals(proposals)
 	if err != nil {
 		return err
 	}

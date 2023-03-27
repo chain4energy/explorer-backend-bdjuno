@@ -29,7 +29,7 @@ func NewSource(source *remote.Source, govClient govtypesv1.QueryClient, govClien
 }
 
 // Proposal implements govsource.Source
-func (s Source) Proposal(height int64, id uint64) (govtypesv1beta1.Proposal, error) {
+func (s Source) LegacyProposal(height int64, id uint64) (govtypesv1beta1.Proposal, error) {
 	res, err := s.govClientv1beta1.Proposal(
 		remote.GetHeightRequestContext(s.Ctx, height),
 		&govtypesv1beta1.QueryProposalRequest{ProposalId: id},
@@ -39,6 +39,19 @@ func (s Source) Proposal(height int64, id uint64) (govtypesv1beta1.Proposal, err
 	}
 
 	return res.Proposal, err
+}
+
+// Proposal implements govsource.Source
+func (s Source) Proposal(height int64, id uint64) (govtypesv1.Proposal, error) {
+	res, err := s.govClient.Proposal(
+		remote.GetHeightRequestContext(s.Ctx, height),
+		&govtypesv1.QueryProposalRequest{ProposalId: id},
+	)
+	if err != nil {
+		return govtypesv1.Proposal{}, err
+	}
+
+	return *res.Proposal, err
 }
 
 // ProposalDeposit implements govsource.Source
