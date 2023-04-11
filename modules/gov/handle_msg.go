@@ -3,6 +3,7 @@ package gov
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/cosmos/cosmos-sdk/x/authz"
 	"time"
 
 	"strconv"
@@ -30,9 +31,33 @@ func (m *Module) HandleMsg(index int, msg sdk.Msg, tx *juno.Tx) error {
 		return m.handleMsgSubmitProposal(tx, index, cosmosMsg)
 	case *govtypesv1.MsgDeposit:
 		return m.handleMsgDeposit(tx, cosmosMsg)
-
 	case *govtypesv1.MsgVote:
 		return m.handleMsgVote(tx, cosmosMsg)
+
+	case *authz.MsgExec:
+		return m.handleMsgExecVote(tx, cosmosMsg)
+	}
+
+	return nil
+}
+
+func (m *Module) handleMsgExecVote(tx *juno.Tx, msg *authz.MsgExec) error {
+	for _, msg := range msg.Msgs {
+
+		msgVote, ok := msg.GetCachedValue().(*govtypesv1.MsgVote)
+		if !ok {
+			legacyMsgVote, legacyMsgVoteOk := msg.GetCachedValue().(*govtypesv1beta1.MsgVote)
+			if !legacyMsgVoteOk {
+				return nil
+			}
+			msgVote = &govtypesv1.MsgVote{
+				ProposalId: legacyMsgVote.ProposalId,
+				Voter:      legacyMsgVote.Voter,
+				Option:     govtypesv1.VoteOption(legacyMsgVote.Option),
+				Metadata:   "",
+			}
+		}
+		return m.handleMsgVote(tx, msgVote)
 	}
 
 	return nil
@@ -115,10 +140,11 @@ func (m *Module) handleMsgSubmitProposal(tx *juno.Tx, index int, msg *govtypesv1
 		return fmt.Errorf("error while getting proposal: %s", err)
 	}
 
-	var customProposalMetadata types.CustomProposalMetadata
-	if err = json.Unmarshal([]byte(proposal.Metadata), &customProposalMetadata); err != nil {
-		return err
+	customProposalMetadata := types.CustomProposalMetadata{
+		Title:       msg.Messages[0].TypeUrl,
+		Description: proposal.Metadata,
 	}
+	json.Unmarshal([]byte(proposal.Metadata), &customProposalMetadata)
 
 	proposalObj := types.NewProposal(
 		proposal.Id,

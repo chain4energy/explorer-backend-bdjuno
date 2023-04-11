@@ -11,7 +11,7 @@ func (m *Module) RegisterPeriodicOperations(scheduler *gocron.Scheduler) error {
 	log.Debug().Str("module", "mint").Msg("setting up periodic tasks")
 
 	// Setup a cron job to run every midnight
-	if _, err := scheduler.Every("10s").Do(func() {
+	if _, err := scheduler.Every("1m").Do(func() {
 		utils.WatchMethod(m.UpdateInflation)
 	}); err != nil {
 		return err
@@ -20,7 +20,7 @@ func (m *Module) RegisterPeriodicOperations(scheduler *gocron.Scheduler) error {
 	return nil
 }
 
-// updateInflation fetches from the REST APIs the latest value for the
+// UpdateInflation fetches from the REST APIs the latest value for the
 // inflation, and saves it inside the database.
 func (m *Module) UpdateInflation() error {
 	log.Debug().
