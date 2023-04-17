@@ -2,9 +2,9 @@ package remote
 
 import (
 	"encoding/json"
-	cfeminter "github.com/chain4energy/c4e-chain/x/cfeminter/types"
 	"github.com/chain4energy/juno/v4/node/remote"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	mintertypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	"io"
 	"net/http"
 
@@ -18,11 +18,11 @@ var (
 // Source implements mintsource.Source using a remote node
 type Source struct {
 	*remote.Source
-	querier cfeminter.QueryClient
+	querier mintertypes.QueryClient
 }
 
 // NewSource returns a new Source instance
-func NewSource(source *remote.Source, querier cfeminter.QueryClient) *Source {
+func NewSource(source *remote.Source, querier mintertypes.QueryClient) *Source {
 	return &Source{
 		Source:  source,
 		querier: querier,
@@ -45,7 +45,7 @@ func (s Source) GetInflation() (sdk.Dec, error) {
 		return sdk.Dec{}, err
 	}
 
-	var queryInflationResponse cfeminter.QueryInflationResponse
+	var queryInflationResponse mintertypes.QueryInflationResponse
 	err = json.Unmarshal(body, &queryInflationResponse)
 	if err != nil {
 		return sdk.Dec{}, err
@@ -55,10 +55,10 @@ func (s Source) GetInflation() (sdk.Dec, error) {
 }
 
 // Params implements mintsource.Source
-func (s Source) Params(height int64) (cfeminter.Params, error) {
-	res, err := s.querier.Params(remote.GetHeightRequestContext(s.Ctx, height), &cfeminter.QueryParamsRequest{})
+func (s Source) Params(height int64) (mintertypes.Params, error) {
+	res, err := s.querier.Params(remote.GetHeightRequestContext(s.Ctx, height), &mintertypes.QueryParamsRequest{})
 	if err != nil {
-		return cfeminter.Params{}, nil
+		return mintertypes.Params{}, nil
 	}
 
 	return res.Params, nil

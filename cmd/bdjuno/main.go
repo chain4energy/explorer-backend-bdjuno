@@ -1,19 +1,18 @@
 package main
 
 import (
+	cfeevapp "github.com/chain4energy/cfeev/app"
 	"github.com/chain4energy/juno/v4/cmd"
 	initcmd "github.com/chain4energy/juno/v4/cmd/init"
 	parsetypes "github.com/chain4energy/juno/v4/cmd/parse/types"
 	startcmd "github.com/chain4energy/juno/v4/cmd/start"
 	"github.com/chain4energy/juno/v4/modules/messages"
 	"github.com/cosmos/cosmos-sdk/types/module"
-
 	migratecmd "github.com/forbole/bdjuno/v4/cmd/migrate"
 	parsecmd "github.com/forbole/bdjuno/v4/cmd/parse"
 
 	"github.com/forbole/bdjuno/v4/types/config"
 
-	c4eapp "github.com/chain4energy/c4e-chain/app"
 	"github.com/forbole/bdjuno/v4/database"
 	"github.com/forbole/bdjuno/v4/modules"
 )
@@ -54,7 +53,7 @@ func main() {
 // This should be edited by custom implementations if needed.
 func getBasicManagers() []module.BasicManager {
 	return []module.BasicManager{
-		c4eapp.ModuleBasics,
+		cfeevapp.ModuleBasics,
 	}
 }
 

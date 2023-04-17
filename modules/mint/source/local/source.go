@@ -3,9 +3,9 @@ package local
 import (
 	"encoding/json"
 	"fmt"
-	cfeminter "github.com/chain4energy/c4e-chain/x/cfeminter/types"
 	"github.com/chain4energy/juno/v4/node/local"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	mintertypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	"io"
 	"net/http"
 
@@ -19,11 +19,11 @@ var (
 // Source implements mintsource.Source using a local node
 type Source struct {
 	*local.Source
-	querier cfeminter.QueryServer
+	querier mintertypes.QueryServer
 }
 
 // NewSource returns a new Source instace
-func NewSource(source *local.Source, querier cfeminter.QueryServer) *Source {
+func NewSource(source *local.Source, querier mintertypes.QueryServer) *Source {
 	return &Source{
 		Source:  source,
 		querier: querier,
@@ -43,7 +43,7 @@ func (s Source) GetInflation() (sdk.Dec, error) {
 		return sdk.Dec{}, err
 	}
 
-	var queryInflationResponse cfeminter.QueryInflationResponse
+	var queryInflationResponse mintertypes.QueryInflationResponse
 	err = json.Unmarshal(body, &queryInflationResponse)
 	if err != nil {
 		return sdk.Dec{}, err
@@ -53,15 +53,15 @@ func (s Source) GetInflation() (sdk.Dec, error) {
 }
 
 // Params implements mintsource.Source
-func (s Source) Params(height int64) (cfeminter.Params, error) {
+func (s Source) Params(height int64) (mintertypes.Params, error) {
 	ctx, err := s.LoadHeight(height)
 	if err != nil {
-		return cfeminter.Params{}, fmt.Errorf("error while loading height: %s", err)
+		return mintertypes.Params{}, fmt.Errorf("error while loading height: %s", err)
 	}
 
-	res, err := s.querier.Params(sdk.WrapSDKContext(ctx), &cfeminter.QueryParamsRequest{})
+	res, err := s.querier.Params(sdk.WrapSDKContext(ctx), &mintertypes.QueryParamsRequest{})
 	if err != nil {
-		return cfeminter.Params{}, err
+		return mintertypes.Params{}, err
 	}
 
 	return res.Params, nil
