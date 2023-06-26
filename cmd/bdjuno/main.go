@@ -13,7 +13,7 @@ import (
 
 	"github.com/forbole/bdjuno/v4/types/config"
 
-	c4eapp "github.com/chain4energy/c4e-chain/app"
+	c4eapp "github.com/chain4energy/c4e-chain/v2/app"
 	"github.com/forbole/bdjuno/v4/database"
 	"github.com/forbole/bdjuno/v4/modules"
 )
