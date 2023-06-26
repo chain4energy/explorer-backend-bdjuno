@@ -98,6 +98,8 @@ func (m *Module) updateDeletedProposalStatus(id uint64) error {
 // handleParamChangeProposal updates params to the corresponding modules if a ParamChangeProposal has passed
 func (m *Module) handleParamChangeProposal(height int64, paramChangeProposal *proposaltypes.ParameterChangeProposal) (err error) {
 	for _, change := range paramChangeProposal.Changes {
+		fmt.Println(change.Subspace)
+		fmt.Println(change)
 		// Update the params for corresponding modules
 		switch change.Subspace {
 		case distrtypes.ModuleName:
@@ -284,7 +286,7 @@ func (m *Module) handlePassedProposal(proposal govtypesv1beta1.Proposal, height 
 	var content govtypesv1beta1.Content
 	err := m.db.EncodingConfig.Codec.UnpackAny(proposal.Content, &content)
 	if err != nil {
-		return fmt.Errorf("error while handling ParamChangeProposal: %s", err)
+		return fmt.Errorf("error while handling ParamChangeProposal cannot unpack any: %s", err)
 	}
 
 	switch p := content.(type) {
