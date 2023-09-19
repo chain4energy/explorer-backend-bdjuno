@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/chain4energy/c4e-chain/v2/app"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	"github.com/forbole/juno/v5/cmd"
 	initcmd "github.com/forbole/juno/v5/cmd/init"
@@ -12,8 +13,6 @@ import (
 	parsecmd "github.com/forbole/bdjuno/v4/cmd/parse"
 
 	"github.com/forbole/bdjuno/v4/types/config"
-
-	"cosmossdk.io/simapp"
 
 	"github.com/forbole/bdjuno/v4/database"
 	"github.com/forbole/bdjuno/v4/modules"
@@ -55,7 +54,7 @@ func main() {
 // This should be edited by custom implementations if needed.
 func getBasicManagers() []module.BasicManager {
 	return []module.BasicManager{
-		simapp.ModuleBasics,
+		app.ModuleBasics,
 	}
 }
 

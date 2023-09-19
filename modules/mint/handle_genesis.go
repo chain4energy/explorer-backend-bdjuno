@@ -3,6 +3,7 @@ package mint
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/chain4energy/c4e-chain/v2/app"
 	cfemintertypes "github.com/chain4energy/c4e-chain/v2/x/cfeminter/types"
 
 	tmtypes "github.com/cometbft/cometbft/types"
@@ -18,7 +19,7 @@ func (m *Module) HandleGenesis(doc *tmtypes.GenesisDoc, appState map[string]json
 
 	// Read the genesis state
 	var genState cfemintertypes.GenesisState
-	err := m.cdc.UnmarshalJSON(appState[cfemintertypes.ModuleName], &genState)
+	err := app.MakeEncodingConfig().Codec.UnmarshalJSON(appState[cfemintertypes.ModuleName], &genState)
 	if err != nil {
 		return fmt.Errorf("error while reading mint genesis data: %s", err)
 	}
