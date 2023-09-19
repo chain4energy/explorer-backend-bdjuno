@@ -3,8 +3,8 @@ package remote
 import (
 	"encoding/json"
 	cfeminter "github.com/chain4energy/c4e-chain/v2/x/cfeminter/types"
-	"github.com/chain4energy/juno/v4/node/remote"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/forbole/juno/v5/node/remote"
 	"io"
 	"net/http"
 
@@ -31,7 +31,7 @@ func NewSource(source *remote.Source, querier cfeminter.QueryClient) *Source {
 
 // GetInflation implements mintsource.Source
 func (s Source) GetInflation() (sdk.Dec, error) {
-	resp, err := http.Get(s.Restendpoint + "/c4e/minter/v1beta1/inflation")
+	resp, err := http.Get("localhost:1317" + "/c4e/minter/v1beta1/inflation")
 	if err != nil {
 		return sdk.Dec{}, err
 	}
