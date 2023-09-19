@@ -1,8 +1,8 @@
 package staking
 
 import (
-	"github.com/chain4energy/juno/v4/modules"
 	"github.com/cosmos/cosmos-sdk/codec"
+	"github.com/forbole/juno/v5/modules"
 
 	"github.com/forbole/bdjuno/v4/database"
 	stakingsource "github.com/forbole/bdjuno/v4/modules/staking/source"

@@ -6,14 +6,16 @@ import (
 	"strconv"
 	"time"
 
-	modulestypes "github.com/forbole/bdjuno/v4/modules/types"
 	"github.com/rs/zerolog/log"
 
-	parsecmdtypes "github.com/chain4energy/juno/v4/cmd/parse/types"
-	"github.com/chain4energy/juno/v4/parser"
-	"github.com/chain4energy/juno/v4/types/config"
+	modulestypes "github.com/forbole/bdjuno/v4/modules/types"
+
 	govtypesv1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1"
-	govtypesv1beta1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
+	parsecmdtypes "github.com/forbole/juno/v5/cmd/parse/types"
+	"github.com/forbole/juno/v5/parser"
+	"github.com/forbole/juno/v5/types/config"
+	"github.com/spf13/cobra"
+
 	"github.com/forbole/bdjuno/v4/database"
 	"github.com/forbole/bdjuno/v4/modules/distribution"
 	"github.com/forbole/bdjuno/v4/modules/gov"
@@ -21,7 +23,6 @@ import (
 	"github.com/forbole/bdjuno/v4/modules/slashing"
 	"github.com/forbole/bdjuno/v4/modules/staking"
 	"github.com/forbole/bdjuno/v4/utils"
-	"github.com/spf13/cobra"
 )
 
 // proposalCmd returns the Cobra command allowing to fix all things related to a proposal
@@ -114,7 +115,7 @@ func refreshProposalDetails(parseCtx *parser.Context, proposalID uint64, govModu
 
 	// Handle the MsgSubmitProposal messages
 	for index, msg := range tx.GetMsgs() {
-		if _, ok := msg.(*govtypesv1beta1.MsgSubmitProposal); !ok {
+		if _, ok := msg.(*govtypesv1.MsgSubmitProposal); !ok {
 			continue
 		}
 

@@ -2,11 +2,11 @@ package v3
 
 import (
 	"fmt"
-	"github.com/chain4energy/juno/v4/types/config"
-	yaml "gopkg.in/yaml.v3"
-	"io/ioutil"
 	"os"
 	"path"
+
+	"github.com/forbole/juno/v5/types/config"
+	"gopkg.in/yaml.v3"
 )
 
 // GetConfig returns the configuration reading it from the config.yaml file present inside the home directory
@@ -18,7 +18,7 @@ func GetConfig() (Config, error) {
 		return Config{}, fmt.Errorf("config file does not exist")
 	}
 
-	bz, err := ioutil.ReadFile(file)
+	bz, err := os.ReadFile(file)
 	if err != nil {
 		return Config{}, fmt.Errorf("error while reading config files: %s", err)
 	}

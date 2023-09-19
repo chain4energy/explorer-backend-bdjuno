@@ -6,8 +6,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/query"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 
-	"github.com/chain4energy/juno/v4/node/local"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/forbole/juno/v5/node/local"
 
 	"github.com/forbole/bdjuno/v4/modules/bank/source"
 	"github.com/forbole/bdjuno/v4/types"

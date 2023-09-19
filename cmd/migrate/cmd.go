@@ -4,17 +4,17 @@ import (
 	"fmt"
 	"os"
 
-	parsecmdtypes "github.com/chain4energy/juno/v4/cmd/parse/types"
+	parsecmdtypes "github.com/forbole/juno/v5/cmd/parse/types"
 	"github.com/spf13/cobra"
 
-	v4 "github.com/forbole/bdjuno/v4/cmd/migrate/v4"
+	v3 "github.com/forbole/bdjuno/v4/cmd/migrate/v3"
 )
 
 type Migrator func(parseCfg *parsecmdtypes.Config) error
 
 var (
 	migrations = map[string]Migrator{
-		"v4": v4.RunMigration,
+		"v3": v3.RunMigration,
 	}
 )
 
@@ -32,7 +32,7 @@ func NewMigrateCmd(appName string, parseConfig *parsecmdtypes.Config) *cobra.Com
 		Use:   "migrate [to-version]",
 		Short: "Perform the migrations from the current version to the specified one",
 		Long: `Migrates all the necessary things (config file, database, etc) from the current version to the new one.
-Note that migrations must be performed in order: to migrate from vX to vX+2 you need to do vX -> vX+1 and then vX+1 -> vX+2.
+Note that migrations must be performed in order: to migrate from vX to vX+2 you need to do vX -> vX+1 and then vX+1 -> vX+2. 
 `,
 		Example: fmt.Sprintf("%s migrate v3", appName),
 		Args:    cobra.RangeArgs(0, 1),

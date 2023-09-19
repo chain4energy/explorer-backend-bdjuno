@@ -4,16 +4,16 @@ import (
 	"github.com/forbole/bdjuno/v4/modules/actions"
 	"github.com/forbole/bdjuno/v4/modules/types"
 
-	"github.com/chain4energy/juno/v4/modules/pruning"
-	"github.com/chain4energy/juno/v4/modules/telemetry"
+	"github.com/forbole/juno/v5/modules/pruning"
+	"github.com/forbole/juno/v5/modules/telemetry"
 
 	"github.com/forbole/bdjuno/v4/modules/slashing"
 
-	jmodules "github.com/chain4energy/juno/v4/modules"
-	"github.com/chain4energy/juno/v4/modules/messages"
-	"github.com/chain4energy/juno/v4/modules/registrar"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	jmodules "github.com/forbole/juno/v5/modules"
+	"github.com/forbole/juno/v5/modules/messages"
+	"github.com/forbole/juno/v5/modules/registrar"
 
 	"github.com/forbole/bdjuno/v4/utils"
 

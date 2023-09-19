@@ -3,9 +3,9 @@ package local
 import (
 	"fmt"
 
-	"github.com/chain4energy/juno/v4/node/local"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
+	"github.com/forbole/juno/v5/node/local"
 
 	distrsource "github.com/forbole/bdjuno/v4/modules/distribution/source"
 )

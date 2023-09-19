@@ -1,9 +1,9 @@
 package remote
 
 import (
-	"github.com/chain4energy/juno/v4/node/remote"
 	"github.com/cosmos/cosmos-sdk/types/query"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+	"github.com/forbole/juno/v5/node/remote"
 
 	"github.com/forbole/bdjuno/v4/utils"
 )

@@ -1,19 +1,20 @@
 package main
 
 import (
-	"github.com/chain4energy/juno/v4/cmd"
-	initcmd "github.com/chain4energy/juno/v4/cmd/init"
-	parsetypes "github.com/chain4energy/juno/v4/cmd/parse/types"
-	startcmd "github.com/chain4energy/juno/v4/cmd/start"
-	"github.com/chain4energy/juno/v4/modules/messages"
 	"github.com/cosmos/cosmos-sdk/types/module"
+	"github.com/forbole/juno/v5/cmd"
+	initcmd "github.com/forbole/juno/v5/cmd/init"
+	parsetypes "github.com/forbole/juno/v5/cmd/parse/types"
+	startcmd "github.com/forbole/juno/v5/cmd/start"
+	"github.com/forbole/juno/v5/modules/messages"
 
 	migratecmd "github.com/forbole/bdjuno/v4/cmd/migrate"
 	parsecmd "github.com/forbole/bdjuno/v4/cmd/parse"
 
 	"github.com/forbole/bdjuno/v4/types/config"
 
-	c4eapp "github.com/chain4energy/c4e-chain/v2/app"
+	"cosmossdk.io/simapp"
+
 	"github.com/forbole/bdjuno/v4/database"
 	"github.com/forbole/bdjuno/v4/modules"
 )
@@ -54,7 +55,7 @@ func main() {
 // This should be edited by custom implementations if needed.
 func getBasicManagers() []module.BasicManager {
 	return []module.BasicManager{
-		c4eapp.ModuleBasics,
+		simapp.ModuleBasics,
 	}
 }
 

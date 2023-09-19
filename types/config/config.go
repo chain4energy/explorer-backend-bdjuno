@@ -1,10 +1,10 @@
 package config
 
 import (
-	initcmd "github.com/chain4energy/juno/v4/cmd/init"
-	junoconfig "github.com/chain4energy/juno/v4/types/config"
+	initcmd "github.com/forbole/juno/v5/cmd/init"
+	junoconfig "github.com/forbole/juno/v5/types/config"
 	"github.com/spf13/cobra"
-	yaml "gopkg.in/yaml.v3"
+	"gopkg.in/yaml.v3"
 
 	"github.com/forbole/bdjuno/v4/modules/actions"
 )

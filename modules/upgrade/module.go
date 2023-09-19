@@ -3,7 +3,7 @@ package upgrade
 import (
 	"github.com/forbole/bdjuno/v4/database"
 
-	"github.com/chain4energy/juno/v4/modules"
+	"github.com/forbole/juno/v5/modules"
 )
 
 var (

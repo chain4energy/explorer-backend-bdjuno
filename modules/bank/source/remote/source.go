@@ -3,10 +3,10 @@ package remote
 import (
 	"fmt"
 
-	"github.com/chain4energy/juno/v4/node/remote"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+	"github.com/forbole/juno/v5/node/remote"
 
 	bankkeeper "github.com/forbole/bdjuno/v4/modules/bank/source"
 	"github.com/forbole/bdjuno/v4/types"

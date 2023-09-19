@@ -1,8 +1,8 @@
 package actions
 
 import (
-	"github.com/chain4energy/juno/v4/node/remote"
-	yaml "gopkg.in/yaml.v3"
+	"github.com/forbole/juno/v5/node/remote"
+	"gopkg.in/yaml.v3"
 )
 
 // Config contains the configuration about the actions module

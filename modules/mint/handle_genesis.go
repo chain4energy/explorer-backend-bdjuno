@@ -5,7 +5,7 @@ import (
 	"fmt"
 	cfemintertypes "github.com/chain4energy/c4e-chain/v2/x/cfeminter/types"
 
-	tmtypes "github.com/tendermint/tendermint/types"
+	tmtypes "github.com/cometbft/cometbft/types"
 
 	"github.com/forbole/bdjuno/v4/types"
 

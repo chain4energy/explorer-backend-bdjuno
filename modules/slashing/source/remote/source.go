@@ -3,9 +3,9 @@ package remote
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/chain4energy/juno/v4/node/remote"
 	"github.com/cosmos/cosmos-sdk/types/query"
 	slashingtypes "github.com/cosmos/cosmos-sdk/x/slashing/types"
+	"github.com/forbole/juno/v5/node/remote"
 
 	slashingsource "github.com/forbole/bdjuno/v4/modules/slashing/source"
 )

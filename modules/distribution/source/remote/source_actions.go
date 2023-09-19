@@ -3,9 +3,9 @@ package remote
 import (
 	"fmt"
 
-	"github.com/chain4energy/juno/v4/node/remote"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
+	"github.com/forbole/juno/v5/node/remote"
 
 	"github.com/forbole/bdjuno/v4/utils"
 )
