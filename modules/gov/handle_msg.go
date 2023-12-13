@@ -44,21 +44,21 @@ func (m *Module) HandleMsg(index int, msg sdk.Msg, tx *juno.Tx) error {
 
 func (m *Module) handleMsgExecVote(tx *juno.Tx, msg *authz.MsgExec) error {
 	for _, msg := range msg.Msgs {
-
-		msgVote, ok := msg.GetCachedValue().(*govtypesv1.MsgVote)
-		if !ok {
-			legacyMsgVote, legacyMsgVoteOk := msg.GetCachedValue().(*govtypesv1beta1.MsgVote)
-			if !legacyMsgVoteOk {
-				return nil
-			}
-			msgVote = &govtypesv1.MsgVote{
-				ProposalId: legacyMsgVote.ProposalId,
-				Voter:      legacyMsgVote.Voter,
-				Option:     govtypesv1.VoteOption(legacyMsgVote.Option),
-				Metadata:   "",
+		newMsgVote, ok := msg.GetCachedValue().(*govtypesv1.MsgVote)
+		if ok {
+			err := m.handleMsgVote(tx, newMsgVote)
+			if err != nil {
+				return err
 			}
 		}
-		return m.handleMsgVote(tx, msgVote)
+
+		legacyMsgVote, ok := msg.GetCachedValue().(*govtypesv1beta1.MsgVote)
+		if ok {
+			err := m.handleLegacyMsgVote(tx, legacyMsgVote)
+			if err != nil {
+				return err
+			}
+		}
 	}
 
 	return nil
