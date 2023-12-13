@@ -2,7 +2,7 @@ package remote
 
 import (
 	"encoding/json"
-	cfeminter "github.com/chain4energy/c4e-chain/v2/x/cfeminter/types"
+	cfeminter "github.com/chain4energy/c4e-chain/x/cfeminter/types"
 	"github.com/chain4energy/juno/v4/node/remote"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"io"

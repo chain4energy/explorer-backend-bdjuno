@@ -33,7 +33,8 @@ func (m *Module) HandleMsg(index int, msg sdk.Msg, tx *juno.Tx) error {
 		return m.handleMsgDeposit(tx, cosmosMsg)
 	case *govtypesv1.MsgVote:
 		return m.handleMsgVote(tx, cosmosMsg)
-
+	case *govtypesv1beta1.MsgVote:
+		return m.handleLegacyMsgVote(tx, cosmosMsg)
 	case *authz.MsgExec:
 		return m.handleMsgExecVote(tx, cosmosMsg)
 	}
@@ -199,6 +200,18 @@ func (m *Module) handleMsgVote(tx *juno.Tx, msg *govtypesv1.MsgVote) error {
 	}
 
 	vote := types.NewVote(msg.ProposalId, msg.Voter, msg.Option, txTimestamp, tx.Height)
+
+	return m.db.SaveVote(vote)
+}
+
+// handleMsgVote allows to properly handle a handleMsgVote
+func (m *Module) handleLegacyMsgVote(tx *juno.Tx, msg *govtypesv1beta1.MsgVote) error {
+	txTimestamp, err := time.Parse(time.RFC3339, tx.Timestamp)
+	if err != nil {
+		return fmt.Errorf("error while parsing time: %s", err)
+	}
+
+	vote := types.NewVote(msg.ProposalId, msg.Voter, govtypesv1.VoteOption(msg.Option), txTimestamp, tx.Height)
 
 	return m.db.SaveVote(vote)
 }

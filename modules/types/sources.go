@@ -2,8 +2,8 @@ package types
 
 import (
 	"fmt"
-	c4eapp "github.com/chain4energy/c4e-chain/v2/app"
-	cfemintertypes "github.com/chain4energy/c4e-chain/v2/x/cfeminter/types"
+	c4eapp "github.com/chain4energy/c4e-chain/app"
+	cfemintertypes "github.com/chain4energy/c4e-chain/x/cfeminter/types"
 	"github.com/chain4energy/juno/v4/node/remote"
 	"github.com/cosmos/cosmos-sdk/simapp"
 	"github.com/cosmos/cosmos-sdk/simapp/params"
