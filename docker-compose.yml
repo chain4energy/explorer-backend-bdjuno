@@ -18,7 +18,7 @@ services:
   bdjuno:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.wasm
     restart: always
     command: bdjuno parse --home /bdjuno/.bdjuno
     volumes:
