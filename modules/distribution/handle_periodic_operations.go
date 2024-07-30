@@ -6,7 +6,7 @@ import (
 	"github.com/go-co-op/gocron"
 	"github.com/rs/zerolog/log"
 
-	"github.com/forbole/bdjuno/v4/modules/utils"
+	"github.com/forbole/callisto/v4/modules/utils"
 )
 
 // RegisterPeriodicOperations implements modules.PeriodicOperationsModule
@@ -17,7 +17,7 @@ func (m *Module) RegisterPeriodicOperations(scheduler *gocron.Scheduler) error {
 	if _, err := scheduler.Every(1).Hour().Do(func() {
 		utils.WatchMethod(m.GetLatestCommunityPool)
 	}); err != nil {
-		return fmt.Errorf("error while scheduling distribution peridic operation: %s", err)
+		return fmt.Errorf("error while scheduling distribution periodic operation: %s", err)
 	}
 
 	return nil
@@ -25,10 +25,10 @@ func (m *Module) RegisterPeriodicOperations(scheduler *gocron.Scheduler) error {
 
 // GetLatestCommunityPool gets the latest community pool from the chain and stores inside the database
 func (m *Module) GetLatestCommunityPool() error {
-	height, err := m.db.GetLastBlockHeight()
+	block, err := m.db.GetLastBlockHeightAndTimestamp()
 	if err != nil {
 		return fmt.Errorf("error while getting latest block height: %s", err)
 	}
 
-	return m.updateCommunityPool(height)
+	return m.updateCommunityPool(block.Height)
 }

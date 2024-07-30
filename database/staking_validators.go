@@ -3,9 +3,9 @@ package database
 import (
 	"fmt"
 
-	"github.com/forbole/bdjuno/v4/types"
+	"github.com/forbole/callisto/v4/types"
 
-	dbtypes "github.com/forbole/bdjuno/v4/database/types"
+	dbtypes "github.com/forbole/callisto/v4/database/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
@@ -436,7 +436,7 @@ ON CONFLICT (validator_address) DO UPDATE
 WHERE validator_status.height <= excluded.height`
 	_, err = db.SQL.Exec(statusStmt, statusParams...)
 	if err != nil {
-		return fmt.Errorf("error while stroring validators statuses: %s", err)
+		return fmt.Errorf("error while storing validators statuses: %s", err)
 	}
 
 	return nil
@@ -456,24 +456,40 @@ VALUES ($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING RETURNING id`
 	return id, err
 }
 
-// SaveDoubleSignEvidence saves the given double sign evidence inside the proper tables
-func (db *Db) SaveDoubleSignEvidence(evidence types.DoubleSignEvidence) error {
-	voteA, err := db.saveDoubleSignVote(evidence.VoteA)
-	if err != nil {
-		return fmt.Errorf("error while storing double sign vote: %s", err)
-	}
-
-	voteB, err := db.saveDoubleSignVote(evidence.VoteB)
-	if err != nil {
-		return fmt.Errorf("error while storing double sign vote: %s", err)
+// SaveDoubleSignEvidences saves the given double sign evidences inside the database
+func (db *Db) SaveDoubleSignEvidences(evidence []types.DoubleSignEvidence) error {
+	if len(evidence) == 0 {
+		return nil
 	}
 
 	stmt := `
 INSERT INTO double_sign_evidence (height, vote_a_id, vote_b_id) 
-VALUES ($1, $2, $3) ON CONFLICT DO NOTHING`
-	_, err = db.SQL.Exec(stmt, evidence.Height, voteA, voteB)
+VALUES `
+
+	var doubleSignEvidence []interface{}
+
+	for i, ev := range evidence {
+		voteA, err := db.saveDoubleSignVote(ev.VoteA)
+		if err != nil {
+			return fmt.Errorf("error while storing double sign vote: %s", err)
+		}
+
+		voteB, err := db.saveDoubleSignVote(ev.VoteB)
+		if err != nil {
+			return fmt.Errorf("error while storing double sign vote: %s", err)
+		}
+
+		si := i * 3
+		stmt += fmt.Sprintf("($%d,$%d,$%d),", si+1, si+2, si+3)
+		doubleSignEvidence = append(doubleSignEvidence, ev.Height, voteA, voteB)
+
+	}
+
+	stmt = stmt[:len(stmt)-1] // remove tailing ","
+	stmt += " ON CONFLICT DO NOTHING"
+	_, err := db.SQL.Exec(stmt, doubleSignEvidence...)
 	if err != nil {
-		return fmt.Errorf("error while storing double sign evidence: %s", err)
+		return fmt.Errorf("error while storing double sign evidences: %s", err)
 	}
 
 	return nil

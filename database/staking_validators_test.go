@@ -3,12 +3,12 @@ package database_test
 import (
 	tmtypes "github.com/tendermint/tendermint/proto/tendermint/types"
 
-	"github.com/forbole/bdjuno/v4/types"
+	"github.com/forbole/callisto/v4/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	dbtypes "github.com/forbole/bdjuno/v4/database/types"
+	dbtypes "github.com/forbole/callisto/v4/database/types"
 )
 
 func newDecPts(value int64, prec int64) *sdk.Dec {
@@ -246,7 +246,7 @@ VALUES ('cosmosvalcons1qqqqrezrl53hujmpdch6d805ac75n220ku09rl',
 func (suite *DbTestSuite) TestGetValidators() {
 	suite.getAccount("cosmos1z4hfrxvlgl4s8u4n5ngjcw8kdqrcv43599amxs")
 	suite.getAccount("cosmos184ma3twcfjqef6k95ne8w2hk80x2kah7vcwy4a")
-	// Inser the test data
+	// Insert the test data
 	queries := []string{
 		`INSERT INTO validator (consensus_address, consensus_pubkey) VALUES ('cosmosvalcons1qqqqrezrl53hujmpdch6d805ac75n220ku09rl', 'cosmosvalconspub1zcjduepq7mft6gfls57a0a42d7uhx656cckhfvtrlmw744jv4q0mvlv0dypskehfk8')`,
 		`INSERT INTO validator (consensus_address, consensus_pubkey) VALUES ('cosmosvalcons1qq92t2l4jz5pt67tmts8ptl4p0jhr6utx5xa8y', 'cosmosvalconspub1zcjduepqe93asg05nlnj30ej2pe3r8rkeryyuflhtfw3clqjphxn4j3u27msrr63nk')`,
@@ -722,9 +722,9 @@ func (suite *DbTestSuite) TestSaveDoubleVoteEvidence() {
 		"cosmosvaloper1rcp29q3hpd246n6qak7jluqep4v006cdsc2kkl",
 		"cosmosvalconspub1zcjduepq7mft6gfls57a0a42d7uhx656cckhfvtrlmw744jv4q0mvlv0dypskehfk8",
 	)
-
+	var evidences []types.DoubleSignEvidence
 	// Insert data
-	evidence := types.NewDoubleSignEvidence(
+	evidences = append(evidences, types.NewDoubleSignEvidence(
 		10,
 		types.NewDoubleSignVote(
 			int(tmtypes.PrevoteType),
@@ -744,8 +744,9 @@ func (suite *DbTestSuite) TestSaveDoubleVoteEvidence() {
 			1,
 			"A5m7SVuvZ8YNXcUfBKLgkeV+Vy5ea+7rPfzlbkEvHOPPce6B7A2CwOIbCmPSVMKUarUdta+HiyTV+IELaOYyDA==",
 		),
+	),
 	)
-	err := suite.database.SaveDoubleSignEvidence(evidence)
+	err := suite.database.SaveDoubleSignEvidences(evidences)
 	suite.Require().NoError(err)
 
 	// Verify insertion

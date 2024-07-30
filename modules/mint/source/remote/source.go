@@ -8,7 +8,7 @@ import (
 	"io"
 	"net/http"
 
-	mintsource "github.com/forbole/bdjuno/v4/modules/mint/source"
+	mintsource "github.com/forbole/callisto/v4/modules/mint/source"
 )
 
 var (
