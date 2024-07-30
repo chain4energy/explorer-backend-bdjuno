@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/chain4energy/c4e-chain/v2/app"
+	"github.com/chain4energy/c4e-chain/app"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	"github.com/forbole/juno/v5/cmd"
 	initcmd "github.com/forbole/juno/v5/cmd/init"

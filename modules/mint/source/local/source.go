@@ -3,7 +3,7 @@ package local
 import (
 	"encoding/json"
 	"fmt"
-	cfeminter "github.com/chain4energy/c4e-chain/v2/x/cfeminter/types"
+	cfeminter "github.com/chain4energy/c4e-chain/x/cfeminter/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/forbole/juno/v5/node/local"
 	"io"

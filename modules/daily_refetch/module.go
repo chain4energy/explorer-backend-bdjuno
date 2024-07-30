@@ -3,7 +3,7 @@ package daily_refetch
 import (
 	"github.com/forbole/juno/v5/node"
 
-	callistodb "github.com/forbole/callisto/v4/database"
+	callistodb "github.com/forbole/bdjuno/v4/database"
 
 	"github.com/forbole/juno/v5/modules"
 )

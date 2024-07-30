@@ -3,8 +3,8 @@ package staking
 import (
 	"fmt"
 
-	"github.com/forbole/callisto/v4/modules/staking/keybase"
-	"github.com/forbole/callisto/v4/types"
+	"github.com/forbole/bdjuno/v4/modules/staking/keybase"
+	"github.com/forbole/bdjuno/v4/types"
 
 	"github.com/rs/zerolog/log"
 
