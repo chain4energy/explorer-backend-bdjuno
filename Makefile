@@ -32,11 +32,11 @@ BUILD_FLAGS :=  -ldflags '$(LD_FLAGS)' -tags "$(build_tags)"
 
 build: go.sum
 ifeq ($(OS),Windows_NT)
-	@echo "building callisto binary..."
-	@go build -mod=readonly $(BUILD_FLAGS) -o build/callisto.exe ./cmd/callisto
+	@echo "building bdjuno binary..."
+	@go build -mod=readonly $(BUILD_FLAGS) -o build/bdjuno.exe ./cmd/callisto
 else
-	@echo "building callisto binary..."
-	@go build -mod=readonly $(BUILD_FLAGS) -o build/callisto ./cmd/callisto
+	@echo "building bdjuno binary..."
+	@go build -mod=readonly $(BUILD_FLAGS) -o build/bdjuno ./cmd/callisto
 endif
 .PHONY: build
 
@@ -45,7 +45,7 @@ endif
 ###############################################################################
 
 install: go.sum
-	@echo "installing callisto binary..."
+	@echo "installing bdjuno binary..."
 	@go install -mod=readonly $(BUILD_FLAGS) ./cmd/callisto
 .PHONY: install
 
@@ -55,12 +55,12 @@ install: go.sum
 
 stop-docker-test:
 	@echo "Stopping Docker container..."
-	@docker stop callisto-test-db || true && docker rm callisto-test-db || true
+	@docker stop bdjuno-test-db || true && docker rm bdjuno-test-db || true
 .PHONY: stop-docker-test
 
 start-docker-test: stop-docker-test
 	@echo "Starting Docker container..."
-	@docker run --name callisto-test-db -e POSTGRES_USER=callisto -e POSTGRES_PASSWORD=password -e POSTGRES_DB=callisto -d -p 6433:5432 postgres
+	@docker run --name bdjuno-test-db -e POSTGRES_USER=bdjuno -e POSTGRES_PASSWORD=password -e POSTGRES_DB=bdjuno -d -p 6433:5432 postgres
 .PHONY: start-docker-test
 
 test-unit: start-docker-test
